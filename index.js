@@ -8,7 +8,7 @@ var each = require("lodash.foreach");
 var hasin = require("lodash.hasin");
 function extractNodeModulesPath() {
     var tempPath = require.resolve("glob");
-    var indxOfNM = tempPath.lastIndexOf("node_modules");
+    var indxOfNM = tempPath.indexOf("node_modules");
     return path.resolve(tempPath.substr(0, indxOfNM), "./node_modules");
 }
 exports.extractNodeModulesPath = extractNodeModulesPath;

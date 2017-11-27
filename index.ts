@@ -8,7 +8,7 @@ import * as hasin from "lodash.hasin"
 // hack function to extract the node_modules folder name
 export function extractNodeModulesPath () {
   const tempPath = require.resolve("glob")
-  const indxOfNM = tempPath.lastIndexOf("node_modules")
+  const indxOfNM = tempPath.indexOf("node_modules")
   return path.resolve(tempPath.substr(0, indxOfNM), "./node_modules")
 }
 
