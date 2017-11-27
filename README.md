@@ -45,3 +45,9 @@ Example:
     }
   }
 ```
+
+
+## TODOS
+
+- publish @types for the library
+- add unit tests
