@@ -48,9 +48,9 @@ function getFiles(modulePath, override, what) {
     var json = JSON.parse(fs.readFileSync(path.join(modulePath, packageJsonName)).toString());
     var files = [];
     if (!override ||
-        !json.ignore ||
+        json.ignore ||
         (what === "js" && json.ignoreJS) ||
-        (what === "css" && json.ignoreJS) ||
+        (what === "css" && json.ignoreCSS) ||
         (what === "js" && override.ignoreJS) ||
         (what === "css" && override.ignoreCSS)) {
         return [];
