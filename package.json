@@ -1,8 +1,7 @@
 {
   "name": "main-files",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "You can get the main js or css files from your package.json",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
