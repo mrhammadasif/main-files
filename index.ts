@@ -54,6 +54,9 @@ function getFiles(modulePath, override, what = "js") {
 
   if (
     !override ||
+    !json.ignore ||
+    (what === "js" && json.ignoreJS) ||
+    (what === "css" && json.ignoreJS) ||
     (what === "js" && override.ignoreJS) ||
     (what === "css" && override.ignoreCSS)
   ) {
