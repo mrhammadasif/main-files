@@ -1,9 +1,9 @@
 import * as fs from "fs"
 import * as path from "path"
 import * as glob from "glob"
-import extend from "lodash.assignin"
-import each from "lodash.foreach"
-import hasIn from "lodash.hasin"
+import * as extend from "lodash.assignin"
+import * as each from "lodash.foreach"
+import * as hasin from "lodash.hasin"
 
 // hack function to extract the node_modules folder name
 export function extractNodeModulesPath () {
@@ -16,7 +16,7 @@ export default function (options: any = {}) {
   let nodeResolved = extractNodeModulesPath()
   let aE = false
 
-  if (hasIn(options, "node_modules")) {
+  if (hasin(options, "node_modules")) {
     aE = true
     nodeResolved = path.resolve(options["node_modules"])
   }
@@ -40,7 +40,7 @@ export default function (options: any = {}) {
   let override
 
   for (key in packages.dependencies) {
-    override = hasIn(overrides, key) ? overrides[key] : {}
+    override = hasin(overrides, key) ? overrides[key] : {}
     keys = keys.concat(getFiles(options.node_modules + "/" + key, override, options.what))
   }
 
@@ -87,7 +87,7 @@ function getFiles(modulePath, override, what = "js") {
   }
 
   // TODO: return files according to the sort number
-  // if (hasIn(override, "sort")) {
+  // if (hasin(override, "sort")) {
   //   return [{
   //     sort: override.sort,
   //     files
