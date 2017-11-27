@@ -1,0 +1,35 @@
+{
+  "name": "main-files",
+  "version": "0.0.1",
+  "description": "You can get the main js or css files from your package.json",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrhammadasif/main-files.git"
+  },
+  "keywords": [
+    "npm",
+    "node_modules",
+    "main",
+    "files"
+  ],
+  "author": "Hammad Asif",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mrhammadasif/main-files/issues"
+  },
+  "homepage": "https://github.com/mrhammadasif/main-files#readme",
+  "dependencies": {
+    "glob": "^7.1.2",
+    "lodash.assignin": "^4.2.0",
+    "lodash.foreach": "^4.5.0",
+    "lodash.hasin": "^4.5.2"
+  },
+  "devDependencies": {
+    "@types/glob": "^5.0.33",
+    "@types/node": "^8.0.53"
+  }
+}
