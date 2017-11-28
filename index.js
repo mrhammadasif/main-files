@@ -3,9 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var fs = require("fs");
 var path = require("path");
 var glob = require("glob");
-var extend = require("lodash.assignin");
-var each = require("lodash.foreach");
-var hasin = require("lodash.hasin");
+var _ = require("lodash");
 function extractNodeModulesPath() {
     var tempPath = require.resolve("glob");
     var indxOfNM = tempPath.indexOf("node_modules");
@@ -16,7 +14,7 @@ function default_1(options) {
     if (options === void 0) { options = {}; }
     var nodeResolved = extractNodeModulesPath();
     var aE = false;
-    if (hasin(options, "node_modules")) {
+    if (_.hasIn(options, "node_modules")) {
         aE = true;
         nodeResolved = path.resolve(options["node_modules"]);
     }
@@ -28,7 +26,7 @@ function default_1(options) {
         what: "js",
         packageJsonPath: "./package.json"
     };
-    options = extend(defaultOptions, (options || {}));
+    options = _.extend(defaultOptions, (options || {}));
     var buffer = fs.readFileSync(options.packageJsonPath);
     var packages = JSON.parse(buffer.toString());
     var key;
@@ -36,50 +34,97 @@ function default_1(options) {
     var overrides = packages.overrides || {};
     var override;
     for (key in packages.dependencies) {
-        override = hasin(overrides, key) ? overrides[key] : {};
-        keys = keys.concat(getFiles(options.node_modules + "/" + key, override, options.what));
+        override = _.hasIn(overrides, key) ? overrides[key] : {};
+        if (!override ||
+            override.ignore ||
+            (options.what === "js" && override.ignoreJS) ||
+            (options.what === "css" && override.ignoreCSS)) {
+            continue;
+        }
+        else {
+            keys = keys.concat(getFiles(options.node_modules + "/" + key, override, options.what));
+        }
     }
+    keys = sortifyKeys(keys);
+    keys = normalizeKeys(keys);
     return keys;
 }
 exports.default = default_1;
+function normalizeKeys(keys) {
+    var tempKeys = [];
+    _.each(keys, function (key) {
+        if (_.isArray(key.files)) {
+            tempKeys.push.apply(tempKeys, key.files);
+        }
+        else if (_.hasIn(key, "files")) {
+            tempKeys.push(key.files);
+        }
+    });
+    return tempKeys;
+}
+function sortifyKeys(arr) {
+    var sortedKeys = [];
+    _.each(arr, function (key, indx) {
+        if (_.isObject(key)) {
+            sortedKeys.splice(key.sort, 0, key);
+        }
+        else {
+            sortedKeys.splice(sortedKeys.length, 0, {
+                sort: arr.length + 1,
+                files: [].concat(key)
+            });
+        }
+    });
+    sortedKeys = _.sortBy(sortedKeys, "sort");
+    return sortedKeys;
+}
 function getFiles(modulePath, override, what) {
     if (what === void 0) { what = "js"; }
     var packageJsonName = "/package.json";
     var json = JSON.parse(fs.readFileSync(path.join(modulePath, packageJsonName)).toString());
     var files = [];
-    if (!override ||
-        json.ignore ||
+    if (json.ignore ||
         (what === "js" && json.ignoreJS) ||
-        (what === "css" && json.ignoreCSS) ||
-        (what === "js" && override.ignoreJS) ||
-        (what === "css" && override.ignoreCSS)) {
+        (what === "css" && json.ignoreCSS)) {
         return [];
     }
     if (what === "js") {
         if (typeof override.main === "object") {
-            each(override.main, function (currentMainFile) {
-                files = files.concat(glob.sync(path.resolve(modulePath + "/" + currentMainFile)));
+            _.each(override.main, function (currentMainFile) {
+                files = files.concat(glob.sync(require.resolve(modulePath + "/" + currentMainFile)));
             });
         }
         else if (typeof override.main === "string") {
-            files = files.concat(glob.sync(path.resolve(modulePath + "/" + override.main)));
+            files = files.concat(glob.sync(require.resolve(modulePath + "/" + override.main)));
         }
         else if (json.main) {
-            files = files.concat(glob.sync(path.resolve(modulePath + "/" + json.main)));
+            files = files.concat(glob.sync(require.resolve(modulePath + "/" + json.main)));
         }
     }
     else {
         if (typeof override.style === "object") {
             override.style.forEach(function (currentMainFile) {
-                files = files.concat(glob.sync(path.resolve(modulePath + "/" + currentMainFile)));
+                files = files.concat(glob.sync(require.resolve(modulePath + "/" + currentMainFile)));
             });
         }
         else if (typeof override.style === "string") {
-            files = files.concat(glob.sync(path.resolve(modulePath + "/" + override.style)));
+            files = files.concat(glob.sync(require.resolve(modulePath + "/" + override.style)));
         }
         else if (json.style) {
-            files = files.concat(glob.sync(path.resolve(modulePath + "/" + json.style)));
+            files = files.concat(glob.sync(require.resolve(modulePath + "/" + json.style)));
         }
+    }
+    if (_.hasIn(override, "sort")) {
+        return [{
+                sort: override.sort,
+                files: files
+            }];
+    }
+    if (_.isNumber(override) || _.parseInt(override)) {
+        return [{
+                sort: _.parseInt(override),
+                files: files
+            }];
     }
     return files;
 }
