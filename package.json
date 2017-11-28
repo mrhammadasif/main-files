@@ -1,6 +1,6 @@
 {
   "name": "main-files",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "You can get the main js or css files from your package.json",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -24,11 +24,10 @@
   "homepage": "https://github.com/mrhammadasif/main-files#readme",
   "dependencies": {
     "glob": "^7.1.2",
-    "lodash.assignin": "^4.2.0",
-    "lodash.foreach": "^4.5.0",
-    "lodash.hasin": "^4.5.2"
+    "lodash": "^4.17.4"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.85",
     "@types/glob": "^5.0.33",
     "@types/node": "^8.0.53"
   }
