@@ -4,13 +4,13 @@ You can get the main files installed in your package.json
 
 ## Installation
 
-```
+```shell
 npm i -s main-files
 ```
 
 ## Usage
 
-```
+```javascript
 // ES6
 import mainFiles from "main-files";
 // ES5
@@ -20,7 +20,8 @@ const options = {
   // {css|js} default = js
   what: "js",
   // absolute path to your node_modules main folder; default = (guess)
-  node_modules: "/path/to"
+  // hint: you can use path.resolve for absolute path
+  node_modules: "/absolute/path/to"
 };
 
 let requiredFilesArray = mainFiles(options);
@@ -32,9 +33,16 @@ You can override each of the library in package.json. You can put overrides pope
 
 Example:
 
-```
+```json
 "overrides": {
+  // ignore the package comletely
+  "bootstrap": false
+  // OR
   "bootstrap": {
+    // ignore both, js or css files
+    "ignore": true,
+    "ignoreJS": true,
+    "ignoreCSS": true,
     // if main in the library is not defined
     "main": "dist/bootstrap.min.js",
     // if style library is not defined
@@ -44,11 +52,35 @@ Example:
   }
 }
 ```
+### Short hand for common settings
+
+##### Sort
+
+```json
+"overrides": {
+	// shorthand for sort option
+    // (number can be (-ive) & Zero will behave like false)
+	"bootstrap": 3
+}
+```
+
+##### Ignore
+
+```json
+"overrides": {
+	// shorthand for ignore the package completely
+    // false or zero i.e. 0
+	"bootstrap": false 
+}
+```
+
+
+
 ### Per module settings
 
-You can include these keys in your package.json for this module
+You can include these keys in your **package.json** for this module
 
-```
+```json
 "ignore": false,
 "ignoreCSS": false,
 "ignoreJS": false,
@@ -58,7 +90,7 @@ You can include these keys in your package.json for this module
 
 
 
-## TODOS
+### Todos
 
 - publish @types for the library
 - add unit tests
