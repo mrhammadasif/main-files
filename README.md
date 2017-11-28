@@ -1,6 +1,6 @@
 # Main Files
 
-You can get the main files installed in your package.json
+You can get the array of main js or css files from your dependencies mentioned in your package.json
 
 ## Installation
 
