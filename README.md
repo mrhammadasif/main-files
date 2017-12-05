@@ -56,7 +56,7 @@ Example:
 
 ##### Sort
 
-```json
+```javascript
 "overrides": {
 	// shorthand for sort option
     // (number can be (-ive) & Zero will behave like false)
