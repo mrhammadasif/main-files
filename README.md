@@ -33,7 +33,7 @@ You can override each of the library in package.json. You can put overrides pope
 
 Example:
 
-```json
+```javascript
 "overrides": {
   // ignore the package comletely
   "bootstrap": false
@@ -66,7 +66,7 @@ Example:
 
 ##### Ignore
 
-```json
+```javascript
 "overrides": {
 	// shorthand for ignore the package completely
     // false or zero i.e. 0
@@ -80,7 +80,7 @@ Example:
 
 You can include these keys in your **package.json** for this module
 
-```json
+```javascript
 "ignore": false,
 "ignoreCSS": false,
 "ignoreJS": false,
